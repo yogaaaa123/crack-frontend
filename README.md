@@ -27,7 +27,14 @@ Halaman utama web aplikasi CrackPOS setelah login sebagai **Admin**. Admin memil
 - **Activity Log** — Audit trail
 - **AI Product Input** — Upload gambar produk, AI ekstrak detail
 
-### FE-3 — Cashier / Staff
+### FE-3 — Dashboard Admin (via Menu)
+<img src="./assets/admin.png" alt="admin" width="600"/>
+
+Halaman dashboard admin yang menampilkan sidebar navigasi penuh ke semua fitur manajemen.
+
+### FE-4 — Cashier / Staff
+<img src="./assets/staff.png" alt="staff" width="600"/>
+
 Halaman **Cashier** dan **Transactions** untuk role **Staff**:
 
 - **Cashier** — Terminal POS dengan grid produk + cart sidebar (Zustand), checkout dengan quantity management
