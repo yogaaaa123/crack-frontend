@@ -9,7 +9,7 @@ Frontend untuk sistem **Inventory Management & Point of Sale (POS)**, dibangun d
 
 Tampilan awal halaman login aplikasi CrackPOS. Digunakan untuk autentikasi admin/staff sebelum mengakses dashboard.
 
-### FE-2 — Dashboard Admin
+### FE-2 — Company Profile
 <img src="./assets/fe-2.png" alt="fe-2" width="600"/>
 
 Halaman utama web aplikasi CrackPOS setelah login. Berisi overview statistik toko (total produk, stok, revenue, low stock), menu navigasi sidebar, dan akses ke seluruh fitur manajemen (produk, kategori, supplier, PO, returns, laporan, dsb).
