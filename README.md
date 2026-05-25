@@ -197,6 +197,41 @@ Cart di `src/features/sales/store/useCartStore.ts`:
 | `getTotalPrice()` | Total harga |
 | `getItemCount()` | Total item |
 
+## Test Coverage
+
+| Metrik | Value |
+|--------|-------|
+| **Total Unit Test Coverage** | **>88%** |
+| Test Files | **36 files** (129 tests) |
+| Framework | Vitest v4 + React Testing Library |
+
+### Coverage Detail
+
+| Metric | % |
+|--------|---|
+| Statements | **88.23%** |
+| Functions | **90.24%** |
+| Lines | **90.74%** |
+| Branches | **63.15%** |
+
+### Test Scope
+
+| Category | Files Tested |
+|---|---|
+| **Utils** | `formatCurrency`, `downloadCsv`, `constants` |
+| **API Client** | `csrf`, `adminClient`, `aiClient` |
+| **Zod Schemas** | `login`, `register`, `product`, `salesOrder`, `purchaseOrder`, `return`, `changePassword` |
+| **Store** | `useCartStore` (Zustand) |
+| **Hooks** | Auth, Products, Categories, Suppliers, Sales, Purchase Orders, Returns, Reports, Inventory, Employees, Activity Log, Change Password, AI Chat, Notifications, Admin |
+
+### Run Tests
+
+```bash
+npm run test        # Run all tests
+npm run test:watch  # Watch mode
+npm run coverage    # Coverage report
+```
+
 ## Scripts
 
 ```bash
@@ -204,6 +239,9 @@ npm run dev      # Dev server (port 3000)
 npm run build    # Production build
 npm run start    # Start production server
 npm run lint     # ESLint
+npm run test     # Vitest
+npm run test:watch # Vitest watch
+npm run coverage # Vitest coverage report
 ```
 
 ## Lisensi
