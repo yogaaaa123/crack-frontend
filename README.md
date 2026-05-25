@@ -4,10 +4,15 @@ Frontend untuk sistem **Inventory Management & Point of Sale (POS)**, dibangun d
 
 ## Asset Preview
 
-| Asset | Nama File | Deskripsi |
-|---|---|---|
-| ![fe-1](./assets/fe-1.png) | `fe-1.png` | **FE-1 — Halaman Login** — Tampilan awal halaman login aplikasi CrackPOS. Digunakan untuk autentikasi admin/staff sebelum mengakses dashboard. |
-| ![fe-2](./assets/fe-2.png) | `fe-2.png` | **FE-2 — Dashboard Admin** — Halaman utama web aplikasi CrackPOS setelah login. Berisi overview statistik toko (total produk, stok, revenue, low stock), menu navigasi sidebar, dan akses ke seluruh fitur manajemen (produk, kategori, supplier, PO, returns, laporan, dsb). |
+### FE-1 — Halaman Login
+![fe-1](./assets/fe-1.png)
+
+Tampilan awal halaman login aplikasi CrackPOS. Digunakan untuk autentikasi admin/staff sebelum mengakses dashboard.
+
+### FE-2 — Dashboard Admin
+![fe-2](./assets/fe-2.png)
+
+Halaman utama web aplikasi CrackPOS setelah login. Berisi overview statistik toko (total produk, stok, revenue, low stock), menu navigasi sidebar, dan akses ke seluruh fitur manajemen (produk, kategori, supplier, PO, returns, laporan, dsb).
 
 ## Tech Stack
 
