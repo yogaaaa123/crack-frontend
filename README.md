@@ -9,10 +9,31 @@ Frontend untuk sistem **Inventory Management & Point of Sale (POS)**, dibangun d
 
 Tampilan awal halaman login aplikasi CrackPOS. Digunakan untuk autentikasi admin/staff sebelum mengakses dashboard.
 
-### FE-2 — Company Profile
+### FE-2 — Dashboard Admin
 <img src="./assets/fe-2.png" alt="fe-2" width="600"/>
 
-Halaman utama web aplikasi CrackPOS setelah login. Berisi overview statistik toko (total produk, stok, revenue, low stock), menu navigasi sidebar, dan akses ke seluruh fitur manajemen (produk, kategori, supplier, PO, returns, laporan, dsb).
+Halaman utama web aplikasi CrackPOS setelah login sebagai **Admin**. Admin memiliki akses penuh ke semua fitur:
+
+- **Overview** — Statistik toko (total produk, stok, revenue, low stock)
+- **Products** — CRUD produk, search, kategori
+- **Categories** — CRUD kategori
+- **Suppliers** — CRUD supplier
+- **Purchase Orders** — Buat & manage PO, receive stock
+- **Returns** — Catat retur barang
+- **Transactions** — Riwayat transaksi penjualan
+- **Reports** — Sales, Inventory, Profit & Loss (filter tanggal + export CSV)
+- **Inventory** — Adjust stok (damaged/lost/found/manual)
+- **Employees** — Manage user (admin/staff)
+- **Activity Log** — Audit trail
+- **AI Product Input** — Upload gambar produk, AI ekstrak detail
+
+### FE-3 — Cashier / Staff
+Halaman **Cashier** dan **Transactions** untuk role **Staff**:
+
+- **Cashier** — Terminal POS dengan grid produk + cart sidebar (Zustand), checkout dengan quantity management
+- **Transactions** — Riwayat transaksi kasir (read-only, hanya lihat transaksi sendiri)
+
+> Staff **tidak bisa** mengakses halaman admin seperti Products, Categories, Suppliers, PO, Returns, Reports, Inventory, Employees, Activity Log, maupun AI Product Input. Role staff hanya bisa menjual dan melihat riwayat transaksinya sendiri.
 
 ## Tech Stack
 
