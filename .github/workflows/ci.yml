@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI
 
 on:
   push:
@@ -29,40 +29,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-  deploy:
-    name: Deploy to Vercel
-    needs: ci
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Check Vercel secrets
-        id: check
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: echo "has_token=$([ -n "$VERCEL_TOKEN" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
-
-      - name: Link Vercel project
-        if: steps.check.outputs.has_token == 'true'
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          mkdir -p .vercel
-          printf '{"projectId":"%s","orgId":"%s"}' "$VERCEL_PROJECT_ID" "$VERCEL_ORG_ID" > .vercel/project.json
-
-      - name: Deploy
-        if: steps.check.outputs.has_token == 'true'
-        run: npx vercel deploy --prod --yes --token "$VERCEL_TOKEN"
-
-      - name: Skip notice
-        if: steps.check.outputs.has_token != 'true'
-        run: echo "::notice::Vercel secrets belum diset — deploy dilewati. Tambahkan VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID di Settings > Secrets."
