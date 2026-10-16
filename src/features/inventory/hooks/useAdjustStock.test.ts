@@ -14,4 +14,4 @@ vi.mock('@tanstack/react-query', () => ({
 import { useAdjustStock } from './useAdjustStock';
 describe('useAdjustStock', () => { it('adjusts', async () => { const { mutateAsync } = useAdjustStock(); await mutateAsync({ productId: 'p1', quantityChange: -2, type: 'DAMAGED' }); }); });
 import { useLowStockProducts } from './useLowStockProducts';
-describe('useLowStockProducts', () => { it('key', () => { const r = useLowStockProducts(); expect(r.queryKey).toEqual(['inventory', 'low-stock']); }); });
+describe('useLowStockProducts', () => { it('key', () => { const r = useLowStockProducts() as any; expect(r.queryKey).toEqual(['inventory', 'low-stock']); }); });

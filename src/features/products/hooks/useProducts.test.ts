@@ -14,7 +14,7 @@ import { useProducts } from './useProducts';
 
 describe('useProducts', () => {
   it('has query key with products prefix', () => {
-    const r = useProducts();
+    const r = useProducts() as any;
     expect(Array.isArray(r.queryKey)).toBe(true);
     expect(r.queryKey.length).toBeGreaterThanOrEqual(1);
   });

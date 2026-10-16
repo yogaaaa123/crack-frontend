@@ -8,7 +8,7 @@ vi.mock('@tanstack/react-query', () => ({
 vi.mock('@/infrastructure/api/client', () => ({ apiClient: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() } }));
 
 import { useEmployees } from './useEmployees';
-describe('useEmployees', () => { it('has correct query key', () => { const r = useEmployees(); expect(r.queryKey).toEqual(['employees']); }); });
+describe('useEmployees', () => { it('has correct query key', () => { const r = useEmployees() as any; expect(r.queryKey).toEqual(['employees']); }); });
 import { useCreateEmployee } from './useCreateEmployee';
 describe('useCreateEmployee', () => { it('creates employee', async () => { const { mutateAsync } = useCreateEmployee(); await mutateAsync({ username: 'staff1', password: 'pass123', role: 'STAFF' }); }); });
 import { useDeleteEmployee } from './useDeleteEmployee';

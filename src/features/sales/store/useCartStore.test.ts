@@ -51,7 +51,6 @@ describe('useCartStore', () => {
       useCartStore.getState().addItem(product);
       useCartStore.getState().addItem(product);
       useCartStore.getState().addItem(product);
-      useCartStore.getState().addItemItem?.({ stockQuantity: 2, id: 'prod-1' }); // ensure at cap
 
       const items = useCartStore.getState().items;
       expect(items[0].cartQuantity).toBeLessThanOrEqual(2);

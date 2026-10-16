@@ -12,7 +12,7 @@ vi.mock('@tanstack/react-query', () => ({
 }));
 
 import { useCategories } from './useCategories';
-describe('useCategories', () => { it('has correct query key', () => { const r = useCategories(); expect(r.queryKey).toEqual(['categories']); }); });
+describe('useCategories', () => { it('has correct query key', () => { const r = useCategories() as any; expect(r.queryKey).toEqual(['categories']); }); });
 import { useCreateCategory } from './useCreateCategory';
 describe('useCreateCategory', () => { it('creates', async () => { const { mutateAsync } = useCreateCategory(); await mutateAsync({ name: 'Electronics' }); }); });
 import { useUpdateCategory } from './useCreateCategory';

@@ -40,7 +40,7 @@ describe('adminApiClient', () => {
       ok: true, status: 200,
       json: vi.fn().mockResolvedValue({ statusCode: 200, message: 'Success', data: { id: '1', name: 'Updated' }, timestamp: '' }),
     });
-    const r = await adminApiClient.patch('/admin/tenants/1', { name: 'Updated' });
+    const r = await adminApiClient.patch<{ name: string }>('/admin/tenants/1', { name: 'Updated' });
     expect(r.name).toBe('Updated');
   });
 });

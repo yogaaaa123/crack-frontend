@@ -10,7 +10,7 @@ import { useActivityLog } from './useActivityLog';
 
 describe('useActivityLog', () => {
   it('has correct query key', () => {
-    const r = useActivityLog();
+    const r = useActivityLog() as any;
     expect(r.queryKey[0]).toBe('activity-log');
   });
 });

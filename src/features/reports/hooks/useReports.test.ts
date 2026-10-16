@@ -10,6 +10,6 @@ vi.mock('@/infrastructure/api/client', () => {
 });
 
 import { useSalesTrend } from './useSalesTrend';
-describe('useSalesTrend', () => { it('uses default 7 days', () => { const r = useSalesTrend(); expect(r.queryKey).toEqual(['reports', 'sales-trend', 7]); }); });
+describe('useSalesTrend', () => { it('uses default 7 days', () => { const r = useSalesTrend() as any; expect(r.queryKey).toEqual(['reports', 'sales-trend', 7]); }); });
 import { useTopProducts } from './useTopProducts';
-describe('useTopProducts', () => { it('uses limit', () => { const r = useTopProducts(10); expect(r.queryKey).toEqual(['reports', 'top-products', 10]); }); });
+describe('useTopProducts', () => { it('uses limit', () => { const r = useTopProducts(10) as any; expect(r.queryKey).toEqual(['reports', 'top-products', 10]); }); });
