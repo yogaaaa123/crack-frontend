@@ -1,18 +1,25 @@
+'use client';
+
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { apiClient } from '@/infrastructure/api/client';
+import { ROLE_HOME } from '@/infrastructure/utils/constants';
 
-interface CreateStoreRequest {
+/** Matches backend CreateStoreDto (storeName, username, password, displayName?). */
+export interface CreateStoreRequest {
   storeName: string;
-  address: string;
-  phone: string;
+  username: string;
+  password: string;
+  displayName?: string;
 }
 
 interface CreateStoreResponse {
   message: string;
-  tenant: {
+  user: {
     id: string;
-    storeName: string;
+    username: string;
+    role: string;
+    tenantId: string;
   };
 }
 
@@ -24,7 +31,8 @@ export function useCreateStore() {
       return await apiClient.post<CreateStoreResponse>('/auth/create-store', data);
     },
     onSuccess: () => {
-      router.push('/admin/dashboard');
+      router.push(ROLE_HOME.ADMIN);
+      router.refresh();
     },
   });
 }

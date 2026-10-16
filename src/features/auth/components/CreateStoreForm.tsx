@@ -8,10 +8,15 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import type { ApiError } from '@/infrastructure/api/types';
 
+// Mirrors backend CreateStoreDto so the store + admin account are created together.
 const createStoreSchema = z.object({
   storeName: z.string().min(3, 'Store name must be at least 3 characters'),
-  address: z.string().min(5, 'Address must be at least 5 characters'),
-  phone: z.string().min(10, 'Phone must be at least 10 characters'),
+  username: z
+    .string()
+    .min(3, 'Username must be at least 3 characters')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Letters, numbers and underscore only'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  displayName: z.string().optional(),
 });
 
 type CreateStoreInput = z.infer<typeof createStoreSchema>;
@@ -42,19 +47,20 @@ export function CreateStoreForm() {
       />
 
       <Input
-        id="address"
-        label="Address"
-        placeholder="123 Main St, City"
-        error={errors.address}
-        {...register('address')}
+        id="username"
+        label="Admin Username"
+        placeholder="admin_toko"
+        error={errors.username}
+        {...register('username')}
       />
 
       <Input
-        id="phone"
-        label="Phone"
-        placeholder="+62812345678"
-        error={errors.phone}
-        {...register('phone')}
+        id="password"
+        type="password"
+        label="Admin Password"
+        placeholder="At least 8 characters"
+        error={errors.password}
+        {...register('password')}
       />
 
       {createStore.isError && (
