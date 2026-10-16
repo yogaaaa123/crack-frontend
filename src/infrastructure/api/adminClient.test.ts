@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { Mock } from 'vitest';
 
 vi.mock('./types', () => ({}));
 
@@ -12,7 +13,7 @@ describe('adminApiClient', () => {
   });
 
   it('makes GET request', async () => {
-    (globalThis.fetch as any).mockResolvedValue({
+    (globalThis.fetch as unknown as Mock).mockResolvedValue({
       ok: true, status: 200,
       json: vi.fn().mockResolvedValue({ statusCode: 200, message: 'Success', data: { id: '1' }, timestamp: '' }),
     });
@@ -21,7 +22,7 @@ describe('adminApiClient', () => {
   });
 
   it('makes POST request', async () => {
-    (globalThis.fetch as any).mockResolvedValue({
+    (globalThis.fetch as unknown as Mock).mockResolvedValue({
       ok: true, status: 200,
       json: vi.fn().mockResolvedValue({ statusCode: 200, message: 'Success', data: { id: '2' }, timestamp: '' }),
     });
@@ -30,13 +31,13 @@ describe('adminApiClient', () => {
   });
 
   it('handles 204', async () => {
-    (globalThis.fetch as any).mockResolvedValue({ ok: true, status: 204, json: vi.fn().mockRejectedValue(new Error('no body')) });
+    (globalThis.fetch as unknown as Mock).mockResolvedValue({ ok: true, status: 204, json: vi.fn().mockRejectedValue(new Error('no body')) });
     const r = await adminApiClient.delete('/admin/tenants/1');
     expect(r).toBeUndefined();
   });
 
   it('makes PATCH request', async () => {
-    (globalThis.fetch as any).mockResolvedValue({
+    (globalThis.fetch as unknown as Mock).mockResolvedValue({
       ok: true, status: 200,
       json: vi.fn().mockResolvedValue({ statusCode: 200, message: 'Success', data: { id: '1', name: 'Updated' }, timestamp: '' }),
     });

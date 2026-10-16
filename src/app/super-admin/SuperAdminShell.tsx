@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { ShieldCheck, LayoutDashboard, Building2, LogOut, Menu, X } from 'lucide-react';
+import Link from 'next/link';
 
 interface Props {
   children: ReactNode;
@@ -54,24 +55,24 @@ export function SuperAdminShell({ children }: Props) {
           </p>
           <ul className="flex flex-col gap-0.5">
             <li>
-              <a
+              <Link
                 href="/super-admin/dashboard"
                 onClick={() => setSidebarOpen(false)}
                 className="group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900"
               >
                 <LayoutDashboard className="h-4.5 w-4.5 shrink-0 text-slate-400 group-hover:text-slate-600" />
                 Dashboard
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/super-admin/tenants"
                 onClick={() => setSidebarOpen(false)}
                 className="group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900"
               >
                 <Building2 className="h-4.5 w-4.5 shrink-0 text-slate-400 group-hover:text-slate-600" />
                 Tenants
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

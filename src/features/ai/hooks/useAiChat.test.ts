@@ -20,7 +20,7 @@ describe('useAiChat', () => {
   });
 
   it('sends a message and receives reply', async () => {
-    (aiChatClient as any).mockResolvedValue({ reply: 'Hello!', toolsUsed: [] });
+    (vi.mocked(aiChatClient)).mockResolvedValue({ reply: 'Hello!', toolsUsed: [] });
 
     const { result } = renderHook(() => useAiChat());
 
@@ -44,7 +44,7 @@ describe('useAiChat', () => {
   });
 
   it('clears chat', async () => {
-    (aiChatClient as any).mockResolvedValue({ reply: 'Hi' });
+    (vi.mocked(aiChatClient)).mockResolvedValue({ reply: 'Hi' });
     const { result } = renderHook(() => useAiChat());
 
     await act(async () => {
@@ -60,7 +60,7 @@ describe('useAiChat', () => {
   });
 
   it('handles errors gracefully', async () => {
-    (aiChatClient as any).mockRejectedValue(new Error('AI service down'));
+    (vi.mocked(aiChatClient)).mockRejectedValue(new Error('AI service down'));
 
     const { result } = renderHook(() => useAiChat());
 

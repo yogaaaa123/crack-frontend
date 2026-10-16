@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('./client', () => {
-  const fn: any = () => Promise.resolve({ reply: 'Hello!' });
+  const fn = Object.assign(() => Promise.resolve({ reply: 'Hello!' }), {} as Record<string, unknown>);
   fn.post = vi.fn(); fn.get = vi.fn(); fn.put = vi.fn(); fn.patch = vi.fn(); fn.delete = vi.fn();
   return { apiClient: fn };
 });

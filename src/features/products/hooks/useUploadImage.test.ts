@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { Mock } from 'vitest';
 
-vi.mock('@tanstack/react-query', () => ({ useMutation: (opts: any) => ({ mutateAsync: async (data: any) => opts.mutationFn(data), isPending: false }) }));
+vi.mock('@tanstack/react-query', () => ({ useMutation: (opts: { mutationFn: (data: unknown) => Promise<unknown> }) => ({ mutateAsync: async (data: unknown) => opts.mutationFn(data), isPending: false }) }));
 
 import { useUploadImage } from './useUploadImage';
 
@@ -12,7 +13,7 @@ describe('useUploadImage', () => {
   });
 
   it('uploads image', async () => {
-    (globalThis.fetch as any).mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({ data: { url: 'https://example.com/img.jpg' } }) });
+    (globalThis.fetch as unknown as Mock).mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({ data: { url: 'https://example.com/img.jpg' } }) });
     const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' });
     const { mutateAsync } = useUploadImage();
     const result = await mutateAsync(file);

@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import type { Mock } from 'vitest';
 import { downloadCsv } from './downloadCsv';
 
 describe('downloadCsv', () => {
@@ -6,25 +7,22 @@ describe('downloadCsv', () => {
   const mockCreateObjectURL = vi.fn(() => 'blob:test');
   const mockRevokeObjectURL = vi.fn();
   const mockClick = vi.fn();
-  let mockLink: any;
+  let mockLink: HTMLAnchorElement;
 
   beforeEach(() => {
     process.env = { ...originalEnv, NEXT_PUBLIC_API_URL: 'http://localhost:8080' };
     vi.resetAllMocks();
 
-    mockLink = {
-      href: '',
-      download: '',
-      click: mockClick,
-    };
+    mockLink = document.createElement('a');
+    mockLink.click = mockClick;
 
     globalThis.fetch = vi.fn();
     globalThis.URL.createObjectURL = mockCreateObjectURL;
     globalThis.URL.revokeObjectURL = mockRevokeObjectURL;
     document.createElement = vi.fn((tag: string) => {
       if (tag === 'a') return mockLink;
-      return {} as any;
-    });
+      return {} as unknown as Element;
+    }) as unknown as typeof document.createElement;
     document.body.appendChild = vi.fn();
     document.body.removeChild = vi.fn();
   });
@@ -35,7 +33,7 @@ describe('downloadCsv', () => {
 
   it('downloads CSV successfully', async () => {
     const mockBlob = new Blob(['a,b,c'], { type: 'text/csv' });
-    (globalThis.fetch as any).mockResolvedValue({
+    (globalThis.fetch as unknown as Mock).mockResolvedValue({
       ok: true,
       blob: vi.fn().mockResolvedValue(mockBlob),
     });
@@ -56,7 +54,7 @@ describe('downloadCsv', () => {
   });
 
   it('throws on failed response', async () => {
-    (globalThis.fetch as any).mockResolvedValue({
+    (globalThis.fetch as unknown as Mock).mockResolvedValue({
       ok: false,
       statusText: 'Internal Server Error',
     });
@@ -67,7 +65,7 @@ describe('downloadCsv', () => {
   });
 
   it('throws on network error', async () => {
-    (globalThis.fetch as any).mockRejectedValue(new Error('Network error'));
+    (globalThis.fetch as unknown as Mock).mockRejectedValue(new Error('Network error'));
 
     await expect(downloadCsv('/api/report', 'report.csv')).rejects.toThrow(
       'Network error',

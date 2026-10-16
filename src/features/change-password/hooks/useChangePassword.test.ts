@@ -8,6 +8,6 @@ import { useChangePassword } from './useChangePassword';
 describe('useChangePassword', () => {
   it('patches change password', async () => {
     const { mutateAsync } = useChangePassword();
-    await mutateAsync({ currentPassword: 'old', newPassword: 'new12345', confirmNewPassword: 'new12345' } as any);
+    await mutateAsync({ currentPassword: 'old', newPassword: 'new12345' });
   });
 });
