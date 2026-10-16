@@ -8,6 +8,9 @@ import { aiChatClient, type AiChatMessage } from '@/infrastructure/api/aiClient'
 // Handle state chat, history, loading, error
 // ---
 
+/** Konteks yang dikirim ke service AI: 40 pesan terakhir (20 pasang tanya-jawab). */
+const MAX_HISTORY_MESSAGES = 40;
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'model';
@@ -53,12 +56,15 @@ export function useAiChat(): UseAiChatReturn {
         history: historyRef.current,
       });
 
-      // Update history untuk next request
-      historyRef.current = [
+      // Update history untuk next request. Role harus 'assistant' (bukan 'model')
+      // karena service AI hanya menerima role user/assistant. Simpan 40 pesan
+      // terakhir supaya percakapan panjang tetap punya konteks tanpa kena limit.
+      const nextHistory: AiChatMessage[] = [
         ...historyRef.current,
         { role: 'user', parts: [text] },
-        { role: 'model', parts: [response.reply] },
+        { role: 'assistant', parts: [response.reply] },
       ];
+      historyRef.current = nextHistory.slice(-MAX_HISTORY_MESSAGES);
 
       // Tambah reply AI ke UI
       const aiMsg: ChatMessage = {

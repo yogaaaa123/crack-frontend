@@ -3,7 +3,7 @@
 import { apiClient } from './client';
 
 export interface AiChatMessage {
-  role: 'user' | 'model';
+  role: 'user' | 'assistant';
   parts: string[];
 }
 

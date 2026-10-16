@@ -35,6 +35,42 @@ describe('useAiChat', () => {
     expect(result.current.messages[1].content).toBe('Hello!');
   });
 
+  it('keeps context across turns with assistant role in history', async () => {
+    vi.mocked(aiChatClient)
+      .mockResolvedValueOnce({ reply: 'Jawaban pertama', toolsUsed: [] })
+      .mockResolvedValueOnce({ reply: 'Jawaban kedua', toolsUsed: [] });
+
+    const { result } = renderHook(() => useAiChat());
+
+    await act(async () => {
+      await result.current.sendMessage('Pertanyaan satu');
+    });
+    await act(async () => {
+      await result.current.sendMessage('Pertanyaan dua');
+    });
+
+    const secondCall = vi.mocked(aiChatClient).mock.calls[1][0];
+    expect(secondCall.history).toEqual([
+      { role: 'user', parts: ['Pertanyaan satu'] },
+      { role: 'assistant', parts: ['Jawaban pertama'] },
+    ]);
+    expect(result.current.messages).toHaveLength(4);
+  });
+
+  it('sends only the last 40 history messages', async () => {
+    vi.mocked(aiChatClient).mockResolvedValue({ reply: 'ok', toolsUsed: [] });
+
+    const { result } = renderHook(() => useAiChat());
+    for (let i = 0; i < 25; i += 1) {
+      await act(async () => {
+        await result.current.sendMessage(`pesan ${i}`);
+      });
+    }
+
+    const lastCall = vi.mocked(aiChatClient).mock.calls.at(-1)?.[0];
+    expect(lastCall?.history).toHaveLength(40);
+  });
+
   it('ignores empty messages', async () => {
     const { result } = renderHook(() => useAiChat());
     await act(async () => {
