@@ -3,6 +3,19 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAiChat, type ChatMessage } from '../hooks/useAiChat';
 
+function BotIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="8" width="16" height="11" rx="3" />
+      <path d="M12 8V5" />
+      <circle cx="12" cy="4" r="1.2" fill="currentColor" stroke="none" />
+      <path d="M2 13v3M22 13v3" />
+      <path d="M9 12.5h.01M15 12.5h.01" />
+      <path d="M9.5 16h5" />
+    </svg>
+  );
+}
+
 function MessageBubble({ msg }: { msg: ChatMessage }) {
   const isUser = msg.role === 'user';
   return (
@@ -84,8 +97,8 @@ export function AiChatWidget() {
           {/* Header */}
           <div className="flex items-center justify-between rounded-t-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3.5 text-white">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 text-lg backdrop-blur-sm">
-                🤖
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 text-white backdrop-blur-sm">
+                <BotIcon className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-sm font-semibold">AI Assistant</p>
@@ -98,7 +111,7 @@ export function AiChatWidget() {
                 className="rounded-lg px-2.5 py-1.5 text-xs text-white/70 transition-all hover:bg-white/15 hover:text-white"
                 title="Hapus chat"
               >
-                ✕ Clear
+                Clear
               </button>
             </div>
           </div>
@@ -108,8 +121,8 @@ export function AiChatWidget() {
             <div className="space-y-4">
               {messages.length === 0 && (
                 <div className="flex h-full flex-col items-center justify-center py-16 text-center">
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 shadow-inner">
-                    <span className="text-3xl">🤖</span>
+                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 shadow-inner">
+                    <BotIcon className="h-8 w-8" />
                   </div>
                   <p className="text-base font-semibold text-slate-700">Halo! Ada yang bisa dibantu?</p>
                   <p className="mt-1.5 max-w-[260px] text-sm text-slate-400">

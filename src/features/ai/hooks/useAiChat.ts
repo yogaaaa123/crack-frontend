@@ -77,7 +77,7 @@ export function useAiChat(): UseAiChatReturn {
         {
           id: uid(),
           role: 'model',
-          content: `⚠️ **Error:** ${errMsg}`,
+          content: `**Error:** ${errMsg}`,
           timestamp: new Date(),
         },
       ]);
