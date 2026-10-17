@@ -116,6 +116,11 @@ export function AiChatWidget() {
             </div>
           </div>
 
+          {/* Info limit */}
+          <div className="border-b border-amber-100 bg-amber-50 px-4 py-2 text-[11px] leading-relaxed text-amber-700">
+            ℹ️ AI ini dibatasi: maksimal <strong>10 chat/menit</strong> dan <strong>kuota token per toko</strong>. Model AI gratis (free tier) juga punya limit harian dari provider, jadi sesekali bisa gagal — coba lagi beberapa saat.
+          </div>
+
           {/* Messages */}
           <div className="flex-1 overflow-y-auto bg-gradient-to-b from-slate-50 to-white p-4">
             <div className="space-y-4">

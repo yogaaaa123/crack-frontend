@@ -105,6 +105,39 @@ describe('useAiChat', () => {
     });
 
     expect(result.current.messages).toHaveLength(2);
-    expect(result.current.messages[1].content).toContain('Error');
+    expect(result.current.messages[1].content).toContain('AI service down');
+    expect(result.current.error).toContain('AI service down');
+  });
+
+  it('shows friendly quota message on 402', async () => {
+    (vi.mocked(aiChatClient)).mockRejectedValue({
+      errorCode: 'ERR_402',
+      message: 'Token AI toko habis. Hubungi admin untuk menambah token.',
+    });
+
+    const { result } = renderHook(() => useAiChat());
+
+    await act(async () => {
+      await result.current.sendMessage('Hi');
+    });
+
+    expect(result.current.messages).toHaveLength(2);
+    expect(result.current.messages[1].content).toContain('Kuota AI toko kamu sudah habis');
+    expect(result.current.messages[1].content).toContain('Hubungi admin toko');
+  });
+
+  it('shows friendly provider-limit message on 5xx', async () => {
+    (vi.mocked(aiChatClient)).mockRejectedValue({
+      errorCode: 'ERR_502',
+      message: 'AI service error',
+    });
+
+    const { result } = renderHook(() => useAiChat());
+
+    await act(async () => {
+      await result.current.sendMessage('Hi');
+    });
+
+    expect(result.current.messages[1].content).toContain('Model AI gratis');
   });
 });

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from 'react';
 import { aiChatClient, type AiChatMessage } from '@/infrastructure/api/aiClient';
+import type { ApiError } from '@/infrastructure/api/types';
 
 // ---
 // useAiChat — Hook utama buat AI Chat
@@ -28,6 +29,46 @@ export interface UseAiChatReturn {
 
 let msgCounter = 0;
 const uid = () => `msg-${++msgCounter}-${Date.now()}`;
+
+/**
+ * Terjemahkan error API jadi pesan ramah yang menjelaskan PENYEBAB limit,
+ * bukan cuma "gagal".
+ */
+function friendlyErrorMessage(err: unknown): string {
+  const apiErr = err as ApiError;
+  const status = apiErr?.errorCode?.replace('ERR_', '');
+
+  switch (status) {
+    case '402':
+      return (
+        '⚠️ Kuota AI toko kamu sudah habis.\n\n' +
+        'Fitur AI dibatasi kuota token per toko oleh aplikasi ini. ' +
+        'Hubungi admin toko untuk menambah kuota AI, lalu coba lagi.'
+      );
+    case '429':
+      return (
+        '⚠️ Terlalu banyak permintaan.\n\n' +
+        'AI dibatasi maksimal 10 chat per menit (batasan aplikasi) dan provider model gratis juga punya limit harian. ' +
+        'Tunggu sebentar lalu coba lagi.'
+      );
+    case '500':
+    case '502':
+    case '503':
+      return (
+        '⚠️ AI sedang tidak bisa diproses.\n\n' +
+        'Kemungkinan penyebabnya:\n' +
+        '• Model AI gratis (OpenRouter free tier) sedang limit atau down.\n' +
+        '• Server AI free hosting sedang sleep, butuh beberapa detik untuk bangun.\n\n' +
+        'Coba lagi dalam beberapa saat ya.'
+      );
+    default:
+      return (
+        err instanceof Error && err.message
+          ? err.message
+          : 'Gagal terhubung ke AI service. Coba lagi nanti.'
+      );
+  }
+}
 
 export function useAiChat(): UseAiChatReturn {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -75,7 +116,7 @@ export function useAiChat(): UseAiChatReturn {
       };
       setMessages((prev) => [...prev, aiMsg]);
     } catch (err) {
-      const errMsg = err instanceof Error ? err.message : 'Gagal terhubung ke AI service';
+      const errMsg = friendlyErrorMessage(err);
       setError(errMsg);
 
       setMessages((prev) => [
@@ -83,7 +124,7 @@ export function useAiChat(): UseAiChatReturn {
         {
           id: uid(),
           role: 'model',
-          content: `**Error:** ${errMsg}`,
+          content: errMsg,
           timestamp: new Date(),
         },
       ]);
